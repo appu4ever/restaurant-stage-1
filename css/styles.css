@@ -1,3 +1,12 @@
+/* FOLLOWING CHANGES INCLUDED IN FILE
+1. Included a meyer reset to start fresh.
+2. Changed px to em and % for responsiveness to different viewports.
+3. Map will not be visible on the main page but on the details page.
+4. Image of the restaurant will be visible on the main page but not the details page.
+5. 'View Details' changed from <a> to button for screen readers to correctly identify them.
+6. Added styling for <picture>
+7. Included media queries for different styling for different viewports. */
+
 @charset "utf-8";
 /* CSS Document */
 
@@ -152,6 +161,12 @@ nav h1 a {
   width: 100%;
   background-color: #ccc;
 }
+#map-container {
+	display: none;
+}
+.inside #map-container {
+	display: block;
+}
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
@@ -183,12 +198,6 @@ nav h1 a {
 
 /* ====================== Restaurant Listing ====================== */
 /* Add map in the restaurant details page and omit showing it in the main page */
-#map-container {
-	display: none;
-}
-.inside #map-container {
-	display: block;
-}
 
 #restaurants-list {
   background-color: #f3f3f3;
@@ -344,11 +353,13 @@ picture {
 	height: auto;
 	width: 100%;
 }
+
 /* FOR MOBILES */
 @media screen and (max-width: 600px) {
 	nav {
 		padding-bottom: 1.5rem;
 	}
+	/* not displaying filter options heading for mobiles */
 	.filter-options h2 {
 		display: none;
 	}
@@ -359,6 +370,7 @@ picture {
 	#restaurants-list li img {
 		width: 100%;
 	}
+	/* For content to appear in a column and also be responsive */
 	.inside {
 		display: flex;
 		flex-direction: column;
@@ -455,6 +467,7 @@ picture {
 	#reviews-list li {
 		padding: 1rem;
 	}
+	/* In the details page, image and working hours table appear in a flex. */
 	.inside #restaurant-container {
 		display: flex;
 		flex-flow: row wrap;
