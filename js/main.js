@@ -8,14 +8,16 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  initMap(); // added 
+  initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
 });
 
 /**
- * Fetch all neighborhoods and set their HTML.
- */
+* @description Fetches info about neighborhoods.
+* @param null
+*/
+
 fetchNeighborhoods = () => {
   DBHelper.fetchNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
@@ -28,10 +30,14 @@ fetchNeighborhoods = () => {
 }
 
 /**
- * Set neighborhoods HTML.
- */
+* @description Forms HTML for a listbox with neighborhoods as options.
+* @param {array} self.neighborhoods
+*/
+
 fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
+  // Added tab order for neighborhood filter
+  select.tabIndex = "0";
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
@@ -41,8 +47,10 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
 }
 
 /**
- * Fetch all cuisines and set their HTML.
- */
+* @description Fetches avilable cuisines
+* @param null
+*/
+
 fetchCuisines = () => {
   DBHelper.fetchCuisines((error, cuisines) => {
     if (error) { // Got an error!
@@ -55,11 +63,14 @@ fetchCuisines = () => {
 }
 
 /**
- * Set cuisines HTML.
- */
+* @description Forms HTML for a listbox with cuisines as options.
+* @param {array} self.cuisines
+*/
+
 fillCuisinesHTML = (cuisines = self.cuisines) => {
   const select = document.getElementById('cuisines-select');
-
+  // Added tab order for cuisine filter
+  select.tabIndex = "0";
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
@@ -69,8 +80,11 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 }
 
 /**
- * Initialize leaflet map, called from HTML.
- */
+* @description Initialize map called from HTML
+* @param null
+*/
+
+ // ADDED MAPBOX TOKEN.
 initMap = () => {
   self.newMap = L.map('map', {
         center: [40.722216, -73.987501],
@@ -78,14 +92,13 @@ initMap = () => {
         scrollWheelZoom: false
       });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<your MAPBOX API KEY HERE>',
+    mapboxToken: 'pk.eyJ1IjoiYXBwdTRldmVyIiwiYSI6ImNqbHo4NmE2aTFzamQzd3F2aTUxMDUwYnQifQ._UA_Bfx1cnBJP4tEQ6oJnw',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
       'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets'
   }).addTo(newMap);
-
   updateRestaurants();
 }
 /* window.initMap = () => {
@@ -102,8 +115,10 @@ initMap = () => {
 } */
 
 /**
- * Update page and map for current restaurants.
- */
+* @description get selected neighborhood and cuisine from listbox and return all relevant restaurants.
+* @param null
+*/
+
 updateRestaurants = () => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
@@ -125,8 +140,10 @@ updateRestaurants = () => {
 }
 
 /**
- * Clear current restaurants, their HTML and remove their map markers.
- */
+* @description reset restaurant info and mao markers
+* @param {array} restaurants
+*/
+
 resetRestaurants = (restaurants) => {
   // Remove all restaurants
   self.restaurants = [];
@@ -142,10 +159,14 @@ resetRestaurants = (restaurants) => {
 }
 
 /**
- * Create all restaurants HTML and add them to the webpage.
- */
+* @description Create all restaurant HTML and add them to the webpage
+* @param {array} self.restaurants
+*/
+
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
+  // ADDED TAB ORDER FOR RESTAURANT LIST
+  ul.tabIndex = "0";
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
@@ -153,18 +174,29 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 }
 
 /**
- * Create restaurant HTML.
- */
+* @description create restaurant HTML
+* @param {object} restaurant
+*/
+
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  /* Each restaurant list item has a picture element that selects the image based on width of viewport */
+  let htmlContent = `<picture class= "restaurant-img" style= "overflow:hidden;">
+                      <source media= "(max-width: 600px)" sizes= "100vw" srcset= "images/${restaurant.id}-800.jpg">
+                      <source media= "(max-width: 850px)" sizes= "100vw" srcset= "images/${restaurant.id}-300.jpg ">
+                      <source media= "(min-width: 851px)" sizes= "100vw" srcset= "images/${restaurant.id}-300.jpg ">
+                      <img src= "/img/${restaurant.id}.jpg">
+                     </picture>`;
+  li.insertAdjacentHTML('afterbegin',htmlContent);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
+  name.tabIndex = "0";
+  // Setting the alt text and title for restaurant images
+  image.alt = "Picture of " + restaurant.name + " restaurant";
+  image.title = restaurant.name;
   li.append(name);
 
   const neighborhood = document.createElement('p');
@@ -175,17 +207,22 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   li.append(address);
 
+  // added a button for better accessibility for screen readers
   const more = document.createElement('a');
+  const button = document.createElement('button');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  button.tabIndex = "-1";
+  button.append(more);
+  li.append(button);
 
   return li
 }
 
 /**
- * Add markers for current restaurants to the map.
- */
+* @description add markers for current restaurant
+* @param {array} self.restaurants
+*/
 addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
@@ -197,7 +234,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 
-} 
+}
 /* addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
@@ -208,4 +245,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
-
