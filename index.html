@@ -13,8 +13,6 @@
 <body>
   <!-- Added role for header -->
   <header role= "banner">
-    <!-- Added a skip link to skip tab through map and move focus to restaurant filter-->
-    <!-- <a href= "#neighborhoods-select" class= "skip-link" tabindex= "0">Skip map to filter results</a> -->
     <!-- Added role for nav -->
     <nav role= "navigation">
       <h1><a href="/">Restaurant Reviews</a></h1>
@@ -22,8 +20,9 @@
   </header>
   <!-- Added role for main section -->
   <main id="maincontent" role= "main">
-    <section id="map-container">
-      <div id="map" aria-label= "Map of all restaurants nearby"></div>
+    <section id="map-container" role= "region" aria-labelledby= "map-description">
+      <p id= "map-description" style= "display:none;">Map indicating restaurants in the vicinity</p>
+      <div id="map"></div>
     </section>
     <section>
       <div class="filter-options">
