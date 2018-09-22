@@ -89,13 +89,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
   // Tab index and label for restaurant name
-  name.tabIndex = "0";
+  name.tabIndex = "-1";
   name.setAttribute('aria-label','Restaurant name ' +name.innerHTML);
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
   // Tab index and label for restaurant address
-  address.tabIndex = "0";
+  address.tabIndex = "-1";
   address.setAttribute('aria-label','Restaurant address' );
 
   const image = document.getElementById('restaurant-img');
@@ -136,8 +136,8 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     const time = document.createElement('td');
     time.innerHTML = operatingHours[key];
     row.appendChild(time);
-    // Added restaurant working hours table to the tab order
-    row.tabIndex = "0";
+    // Removed restaurant working hours table to the tab order
+    row.tabIndex = "-1";
     hours.appendChild(row);
   }
 }
@@ -176,7 +176,7 @@ createReviewHTML = (review) => {
   const name = document.createElement('p');
   name.innerHTML = review.name;
   // Added tab index and label for reviewer name
-  name.tabIndex = "0";
+  name.tabIndex = "-1";
   name.setAttribute('aria-label','Review by '+review.name);
   li.appendChild(name);
 
@@ -189,7 +189,7 @@ createReviewHTML = (review) => {
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
   // Add restaurant rating to the tab order
-  rating.tabIndex = "0";
+  rating.tabIndex = "-1";
   li.appendChild(rating);
 
   const comments = document.createElement('p');
