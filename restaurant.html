@@ -24,10 +24,12 @@
       <h1 ><a href="/" aria-describedby = "description">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb">
-      <!-- Added tab order for home link -->
-      <li tabindex= "0"><a href="/" aria-describedby= "description">Home</a></li>
-    </ul>
+    <nav aria-label= "Breadcrumb" id= "breadcrumb-container" role= "navigation">
+      <ul id= "breadcrumb">
+        <!-- Added tab order for home link -->
+        <li tabindex= "0"><a href="/" aria-describedby= "description">Home</a></li>
+      </ul>
+    </nav>
 
     <!-- End breadcrumb -->
     <!-- End nav -->
@@ -39,7 +41,7 @@
   <main id="maincontent" role= "main" aria-label= "restaurant details and reviews">
     <!-- Beginning map -->
     <!-- Hiding map from screen readers -->
-    <section id="map-container" aria-hidden = "true">
+    <section id="map-container" aria-role= "application">
       <div id="map" aria-hidden = "true"></div>
     </section>
     <!-- End map -->
