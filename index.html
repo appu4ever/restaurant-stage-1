@@ -20,7 +20,7 @@
   </header>
   <!-- Added role for main section -->
   <main id="maincontent" role= "main">
-    <section id="map-container" role= "region" aria-labelledby= "map-description" role= "application">
+    <section id="map-container" aria-labelledby= "map-description" role= "application">
       <p id= "map-description" style= "display:none;">Map indicating restaurants in the vicinity</p>
       <div id="map"></div>
     </section>
@@ -28,11 +28,11 @@
       <div class="filter-options">
         <h2>Filter Results</h2>
         <!-- Added role for listbox -->
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" role= "listbox">
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" role= "listbox" aria-label= "Select Neighborhood">
           <!-- Added role for options within listbox -->
           <option value="all" role= "option">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" role= "listbox">
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" role= "listbox" aria-label= "Select Cuisine">
           <option value="all" role= "option">All Cuisines</option>
         </select>
       </div>
