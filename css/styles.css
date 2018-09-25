@@ -123,15 +123,20 @@ nav h1 a {
   letter-spacing: 0.8em;
   text-transform: uppercase;
 }
-#breadcrumb {
-    padding: 0.7em 2.5em 1em;
-    list-style: none;
-    background-color: #eee;
-    font-size: 1em;
-    margin: 0;
-    width: calc(50% - 5em);
+#breadcrumb-container {
+		width: calc(50% - 5em);
+		background-color: #eee;
+		text-align: left;
+		margin: 0;
+		padding: 0.7em 2.5em 1em;
 }
-
+#breadcrumb {
+		list-style: none;
+	  background-color: #eee;
+	  font-size: 1em;
+	  margin: 0;
+		padding: 0;
+}
 
 #breadcrumb li {
     display: inline;
@@ -395,6 +400,11 @@ picture {
 	.inside .child-container img, .inside .child-container p {
 		display: none;
 	}
+	#breadcrumb-container {
+		width: 100%;
+		background-color: #eee;
+		padding-left: 0;
+	}
 	#breadcrumb {
 		width: 100%;
 		padding: 2% 0;
@@ -439,11 +449,16 @@ picture {
 		position: relative;
 		width: 100%;
 	}
+	#breadcrumb-container {
+		width: 100%;
+		background-color: #eee;
+		text-align: center;
+		padding-left: 0;
+	}
 	.inside #breadcrumb {
 		width: 100%;
-		text-align: center;
 		margin: 0;
-		padding: 0.5rem;
+		padding: 1em;
 	}
 	.inside #breadcrumb li {
 		font-size: 1rem;
@@ -501,8 +516,11 @@ picture {
 	  top: 0;
 	  width: 50%;
 	}
-	.inside header nav{
+	.inside header nav {
 		width: 50%;
+	}
+	#breadcrumb-container {
+		padding-bottom: 0;
 	}
 	#restaurant-container, #reviews-container {
 		padding-left: 1rem;
